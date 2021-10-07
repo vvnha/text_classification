@@ -1,5 +1,7 @@
 import yake
 
+from langdetect import detect, detect_langs
+
 textVi = 'Lập Trình Không Khó là blog chia sẻ kiến thức lập trình miễn phí . Do vậy , tệp khách hàng của chúng tôi chủ yếu là đối tượng học lập trình , độ tuổi từ 18 - 24 và hầu hết là người dùng đến từ Việt Nam . Lập Trình Không Khó có hơn 300.000 người dùng trung bình mỗi tháng , đóng góp lượt xem trang trung bình mỗi ngày trên 20.000 views . Trong đó , trên 80 % lượng truy cập đến từ công cụ tìm kiếm ( Google , Cốc Cốc , ... ) . Ngoài ra , nhóm Lập Trình Không Khó trên Facebook hoạt động sôi nổi có tới 30.000 thành viên .'
 
 textEng = "Sources tell us that Google is acquiring Kaggle, a platform that hosts data science and machine learning "\
@@ -25,10 +27,12 @@ textEng = "Sources tell us that Google is acquiring Kaggle, a platform that host
     "since its   launch in 2010. Investors in Kaggle include Index Ventures, SV Angel, Max Levchin, Naval Ravikant, "\
     "Google chief economist Hal Varian, Khosla Ventures and Yuri Milner "
 
-text = textEng
-lan = 'en'
+text = textVi
+# lan = 'en'
 # Ta cần custom stopword tiếng Việt do thư viện này không có sẵn stopword list cho tiếng Việt
 stopwords = open('Keyword/stopwords.txt', encoding="utf8").read().splitlines()
+
+lan = detect(text)
 
 if(lan == 'vi'):
     kw_extractor = yake.KeywordExtractor(lan='vi', n=2, stopwords=stopwords)
