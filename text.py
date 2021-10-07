@@ -54,7 +54,7 @@ X_data, y_data = get_data(train_path)
 pickle.dump(X_data, open('data/X_data.pkl', 'wb'))
 pickle.dump(y_data, open('data/y_data.pkl', 'wb'))
 
-test_path  = os.path.join(
+test_path = os.path.join(
     dir_path, 'VNTC-master\\Data\\27Topics\\Ver1.1\\Test\\Test')
 X_test, y_test = get_data(test_path)
 
