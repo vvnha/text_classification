@@ -6,6 +6,7 @@ from pyvi import ViTokenizer, ViPosTagger
 from tqdm import tqdm
 import numpy as np
 import gensim
+# from gensim.summarization import keywords
 import numpy as np
 from tensorflow.python.keras import models
 from sklearn.decomposition import TruncatedSVD
@@ -82,9 +83,16 @@ typeText = encoder.classes_
 rs = loaded_model.predict(test_doc_tfidf)
 rsArray = list(zip(probality.flatten(), typeText))
 
+
 def takeFirst(elem):
     return elem[0]
+
 
 rsArray.sort(key=takeFirst, reverse=True)
 
 print(rsArray)
+
+print(gensim.summarization.keywords(test_doc))
+
+# install https://github.com/trungtv/vivi_spacy/raw/master/vi/vi_core_news_md-2.0.1/dist/vi_core_news_md-2.0.1.tar.gz
+# to key extractor
