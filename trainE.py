@@ -18,10 +18,6 @@ train_data = fetch_20newsgroups(subset="train", categories=text_categories)
 # define the test set
 test_data = fetch_20newsgroups(subset="test", categories=text_categories)
 
-print("We have {} unique classes".format(len(text_categories)))
-print("We have {} training samples".format(len(train_data.data)))
-print("We have {} test samples".format(len(test_data.data)))
-
 my_sentence = ''''
 When I study in my school, I recognized that my school system has the function for the student to submit their researches or documents, but they cannot define whether their documents can be copied or not.
 Therefore, My purpose is to build a library system with the function of storing documents such as research articles, reports, slides, to serve the preservation of user documents. The topic can apply AI in classifying the content of the document, thereby checking and considering whether the document is copied from previous documents and at the same time displaying the similarity between the documents and notify users to be aware of content copying.
