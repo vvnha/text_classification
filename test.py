@@ -12,6 +12,7 @@ from tensorflow.python.keras import models
 from sklearn.decomposition import TruncatedSVD
 from sklearn import preprocessing
 from tensorflow.python.keras.optimizer_v2.adam import Adam
+import sys
 
 file_model = "data/model.json"
 
@@ -70,29 +71,60 @@ y_data = pickle.load(open('data/y_data.pkl', 'rb'))
 tfidf_vect = pickle.load(open('data/tfidf_vect.pkl', 'rb'))
 svd = joblib.load("data/svd.p")
 
-test_doc = preprocessing_doc(test_doc)
-test_doc_tfidf = tfidf_vect.transform([test_doc])
-print(np.shape(test_doc_tfidf))
-test_doc_svd = svd.transform(test_doc_tfidf)
-probality = loaded_model.predict_proba(test_doc_tfidf)
+def test(test_doc):
 
-encoder = preprocessing.LabelEncoder()
-y_data_n = encoder.fit_transform(y_data)
-typeText = encoder.classes_
+    test_doc = preprocessing_doc(test_doc)
+    test_doc_tfidf = tfidf_vect.transform([test_doc])
+    print(np.shape(test_doc_tfidf))
+    test_doc_svd = svd.transform(test_doc_tfidf)
+    probality = loaded_model.predict_proba(test_doc_tfidf)
 
-rs = loaded_model.predict(test_doc_tfidf)
-rsArray = list(zip(probality.flatten(), typeText))
+    encoder = preprocessing.LabelEncoder()
+    y_data_n = encoder.fit_transform(y_data)
+    typeText = encoder.classes_
 
-
-def takeFirst(elem):
-    return elem[0]
+    rs = loaded_model.predict(test_doc_tfidf)
+    rsArray = list(zip(probality.flatten(), typeText))
 
 
-rsArray.sort(key=takeFirst, reverse=True)
+    def takeFirst(elem):
+        return elem[0]
 
-print(rsArray)
 
-print(gensim.summarization.keywords(test_doc))
+    rsArray.sort(key=takeFirst, reverse=True)
+    return rsArray
 
-# install https://github.com/trungtv/vivi_spacy/raw/master/vi/vi_core_news_md-2.0.1/dist/vi_core_news_md-2.0.1.tar.gz
-# to key extractor
+# X_data = pickle.load(open('data/X_data.pkl', 'rb'))
+# y_data = pickle.load(open('data/y_data.pkl', 'rb'))
+
+# tfidf_vect = pickle.load(open('data/tfidf_vect.pkl', 'rb'))
+# svd = joblib.load("data/svd.p")
+
+# test_doc = preprocessing_doc(test_doc)
+# test_doc_tfidf = tfidf_vect.transform([test_doc])
+# print(np.shape(test_doc_tfidf))
+# test_doc_svd = svd.transform(test_doc_tfidf)
+# probality = loaded_model.predict_proba(test_doc_tfidf)
+
+# encoder = preprocessing.LabelEncoder()
+# y_data_n = encoder.fit_transform(y_data)
+# typeText = encoder.classes_
+
+# rs = loaded_model.predict(test_doc_tfidf)
+# rsArray = list(zip(probality.flatten(), typeText))
+
+
+# def takeFirst(elem):
+#     return elem[0]
+
+
+# rsArray.sort(key=takeFirst, reverse=True)
+
+# print(rsArray)
+
+# print(gensim.summarization.keywords(test_doc))
+
+# # install https://github.com/trungtv/vivi_spacy/raw/master/vi/vi_core_news_md-2.0.1/dist/vi_core_news_md-2.0.1.tar.gz
+# # to key extractor
+
+sys.modules[__name__] = test

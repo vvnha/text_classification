@@ -11,6 +11,7 @@ from tensorflow.python.keras import models
 from sklearn.decomposition import TruncatedSVD
 from sklearn import preprocessing
 from tensorflow.python.keras.optimizer_v2.adam import Adam
+import sys
 
 file_model = "dataE/model.json"
 
@@ -36,24 +37,55 @@ y_data = pickle.load(open('dataE/y_data.pkl', 'rb'))
 tfidf_vect = pickle.load(open('dataE/tfidf_vect.pkl', 'rb'))
 svd = joblib.load("dataE/svd.p")
 
-test_doc = preprocessing_doc(test_doc)
-test_doc_tfidf = tfidf_vect.transform([test_doc])
-print(np.shape(test_doc_tfidf))
-test_doc_svd = svd.transform(test_doc_tfidf)
-probality = loaded_model.predict_proba(test_doc_tfidf)
+def testE(test_doc):
 
-encoder = preprocessing.LabelEncoder()
-y_data_n = encoder.fit_transform(y_data)
-typeText = encoder.classes_
+    test_doc = preprocessing_doc(test_doc)
+    test_doc_tfidf = tfidf_vect.transform([test_doc])
+    print(np.shape(test_doc_tfidf))
+    test_doc_svd = svd.transform(test_doc_tfidf)
+    probality = loaded_model.predict_proba(test_doc_tfidf)
 
-rs = loaded_model.predict(test_doc_tfidf)
-rsArray = list(zip(probality.flatten(), typeText))
+    encoder = preprocessing.LabelEncoder()
+    y_data_n = encoder.fit_transform(y_data)
+    typeText = encoder.classes_
 
-
-def takeFirst(elem):
-    return elem[0]
+    rs = loaded_model.predict(test_doc_tfidf)
+    rsArray = list(zip(probality.flatten(), typeText))
 
 
-rsArray.sort(key=takeFirst, reverse=True)
+    def takeFirst(elem):
+        return elem[0]
 
-print(rsArray)
+
+    rsArray.sort(key=takeFirst, reverse=True)
+    return rsArray
+
+# X_data = pickle.load(open('dataE/X_data.pkl', 'rb'))
+# y_data = pickle.load(open('dataE/y_data.pkl', 'rb'))
+
+# tfidf_vect = pickle.load(open('dataE/tfidf_vect.pkl', 'rb'))
+# svd = joblib.load("dataE/svd.p")
+
+# test_doc = preprocessing_doc(test_doc)
+# test_doc_tfidf = tfidf_vect.transform([test_doc])
+# print(np.shape(test_doc_tfidf))
+# test_doc_svd = svd.transform(test_doc_tfidf)
+# probality = loaded_model.predict_proba(test_doc_tfidf)
+
+# encoder = preprocessing.LabelEncoder()
+# y_data_n = encoder.fit_transform(y_data)
+# typeText = encoder.classes_
+
+# rs = loaded_model.predict(test_doc_tfidf)
+# rsArray = list(zip(probality.flatten(), typeText))
+
+
+# def takeFirst(elem):
+#     return elem[0]
+
+
+# rsArray.sort(key=takeFirst, reverse=True)
+
+# print(rsArray)
+
+sys.modules[__name__] = testE
