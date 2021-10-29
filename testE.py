@@ -13,7 +13,7 @@ from sklearn import preprocessing
 from tensorflow.python.keras.optimizer_v2.adam import Adam
 import sys
 
-file_model = "dataE/model.json"
+# file_model = "dataE/model.json"
 
 # loaded_model = models.load_model("data/model")
 
